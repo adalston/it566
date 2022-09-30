@@ -13,7 +13,8 @@ class InventoryApp():
 		self.LOAD_INVENTORY='2'
 		self.LIST_INVENTORY='3'
 		self.ADD_ITEMS='4'
-		self.SAVE_INVENTORY='5'
+		self.FIND_ITEM='5'
+		self.SAVE_INVENTORY='6'
 		self.EXIT='7'
 		# Fields
 		self.menu_choice = 1
@@ -29,7 +30,8 @@ class InventoryApp():
 		print('\t\t2. Load Inventory')
 		print('\t\t3. List Inventory')
 		print('\t\t4. Add Items')
-		print('\t\t5. Save Inventory')
+		print('\t\t5. Find Item')
+		print('\t\t6. Save Inventory')
 		print('\t\t7. Exit')
 		print()
 
@@ -46,6 +48,8 @@ class InventoryApp():
 				self.list_inventory()
 			case self.ADD_ITEMS:
 				self.add_items()
+			case self.FIND_ITEM:
+				self.find_item()
 			case self.SAVE_INVENTORY:
 				self.save_inventory()
 			case self.EXIT:
@@ -79,6 +83,14 @@ class InventoryApp():
 			item_count = input('Item Count: ')
 			self.home_inventory.add_item(item_name, item_count)
 			keep_going = input('Add another? (y/n): ')
+
+	def find_item(self):
+		"""Find items to inventory."""
+		keep_going = 'y'
+		while keep_going[0] == 'y':
+			item_name = input('Item Name: ')
+			self.home_inventory.find_item(item_name)
+			keep_going = input('Find another? (y/n): ')
 
 	def start_application(self):
 		"""Start the applications."""

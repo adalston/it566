@@ -50,6 +50,13 @@ class HomeInventory():
         assert self.dictionary != None
         self.dictionary[item_name] = item_count
 
+    def find_item(self, item_name):
+        """Find item to inventory."""
+        assert self.dictionary != None
+        for key, value in self.dictionary.items():
+            if key == item_name:
+                print(key, " : ", value)
+       
     def list_inventory(self):
         """List inventory to console."""
         print('----- Current Inventory ----')
