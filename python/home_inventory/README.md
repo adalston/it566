@@ -1,4 +1,4 @@
-# Home Inventory Application Framework
+# Home Inventory Application (Project 1)
 
 Implements a reference application you can use for inspiration. 
 
