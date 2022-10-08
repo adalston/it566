@@ -2,100 +2,78 @@
 
 from asyncio.windows_events import NULL
 from contextlib import nullcontext
+from datetime import date
 import json
+import operator
 from tkinter import *
+from tkinter import messagebox
 
-#from home_inventory import HomeInventory
-
-class InventoryAppGUI():
-    """Implements household inventory control features GUI."""
+class HomeInventoryGUI():
+    """Implements household inventory class features."""
 
     def __init__(self):
         """Initialize object."""
         # variable
-        self.root = Tk()
-        self.root.title("Home Inventory")
-        self.root.geometry("900x450")
-        self.list_text_box = None
-#        self.home_inventory = HomeInventory()
-        self.list_frame = None
-        self.load_inventory_frame = None
-        pass
+        self.inventory_file = None
+        self.dictionary = None
+        self._initialize_home_inventory_dictionary()
 
-    def hide_all_frames(self):
-        self.list_frame.pack_forget()
-        self.load_inventory_frame.pack_forget()
+    def _initialize_home_inventory_dictionary(self):
+            print("Initializing new Home Inventory...")
+            self.dictionary = {}
+            self.dictionary['type'] = 'Home Inventory'
+            self.dictionary['date'] = date.today().isoformat()
+            self.dictionary['items'] = []
+            print("New Home Inventory Initialized")
 
     def new_inventory(self):
-        self.hide_all_frames()
-    
-    def load_inventory(self):
-        self.hide_all_frames()
-        self.load_inventory_frame.pack(fill="both",expand=1)
+        """Initialize new dictionary to store inventory data."""
+        if self.dictionary != None:
+            msgbox = messagebox.askyesno('Save Inventory','Save current inventory?',icon = 'warning')
+            match msgbox:
+                case 'yes':
+                    self.save_inventory()
+                    self._initialize_home_inventory_dictionary()
+                case 'no':
+                    self._initialize_home_inventory_dictionary()
+                case _:
+                    self._initialize_home_inventory_dictionary()
+        else:
+            self._initialize_home_inventory_dictionary()
 
-    def load_inventory_file(self):
-        self.hide_all_frames()
-       
+    def load_inventory_file(self, file_path):
+        """Loads data from JSON file into inventory."""
+        print ("FILE: ", file_path)
+        if operator.contains(file_path, ".json"):           
+            try:
+                with open(file_path, 'r', encoding='UTF-8') as self.inventory_file:
+                    self.dictionary = json.load(self.inventory_file)
+            except Exception as error:
+                messagebox.showinfo("popup", "File not found: [" + file_path + "]")
+            else:
+                messagebox.showinfo("popup", "Successfully loaded: [" + file_path + "]")
+        else:
+            messagebox.showinfo("popup", "File is not a JSON file: [" + file_path + "]")
+
     def add_items(self):
-        self.hide_all_frames()
-        
-    def save_inventory(self):
-        self.hide_all_frames()
-        
-    def close(self):
-        self.root.destroy()
+       pass
 
-    def list_inventory(self):
-        self.hide_all_frames()
-        self.list_frame.pack(fill="both",expand=1)
+    def save_inventory_file(self, file_path):
+        """Save inventory to file."""
+        if self.dictionary != None:
+            with open(file_path, 'w', encoding='UTF-8') as self.inventory_file:
+                self.inventory_file.write(json.dumps(self.dictionary))
+            messagebox.showinfo("popup", "Successfully saved: [" + file_path + "]")
 
-        self.list_textbox.delete(1.0, END)
-        with open("data\inventory.json", 'r', encoding='UTF-8') as inventory_file:
-                dictionary = json.load(inventory_file)
-
-        for key, value in dictionary.items():
+    def list_inventory(self, list_textbox):
+        """Displays current inventory data."""
+        list_textbox.delete(1.0, END)
+ 
+        for key, value in self.dictionary.items():
                     if key == 'items':
-                        self.list_textbox.insert(END, key.upper() + ':   ---------------------------------\n')
+                        list_textbox.insert(END, key.upper() + ':   ---------------------------------\n')
                         for item in value:
-                            self.list_textbox.insert(END, f'\t {item["item"]:25} \t {item["count"]}\n')
+                            list_textbox.insert(END, f'\t {item["item"]:25} \t {item["count"]}\n')
                     else:
-                        self.list_textbox.insert(END, f'{key.upper()}: \t {value.upper()}\n')
-        self.list_textbox.insert(END,'         ---------------------------------\n')
-
-    def buildGUI(self):
-        
-        """Build the buttons across the top."""
-        my_labelframe = LabelFrame(self.root, text="Inventory Menu")
-        my_labelframe.pack(pady=5, side=TOP)
-
-        Button(my_labelframe, text="New Inventory", command=self.new_inventory, width=15).grid(row=0, column=0, padx=10)
-        Button(my_labelframe, text="Load Inventory", command=self.load_inventory, width=15).grid(row=0, column=1, padx=10)
-        Button(my_labelframe, text="List Inventory", command=self.list_inventory, width=15).grid(row=0, column=2, padx=10)
-        Button(my_labelframe, text="Add Items", command=self.add_items, width=15).grid(row=0, column=3, padx=10)
-        Button(my_labelframe, text="Save Inventory", command=self.save_inventory, width=15).grid(row=0, column=4, padx=10)
-        Button(my_labelframe, text="Exit", command=self.close, width=15).grid(row=0, column=5, padx=10)
-
-        """Build the frame for the list inventory."""
-        self.list_frame = Frame(self.root, width=450, height=450, bg="cyan")
-        self.list_textbox = Text(self.list_frame, height=20, width=80, wrap=WORD, bg="cyan")
-        self.list_textbox.pack()
-
-        self.load_inventory_frame = LabelFrame(self.root, text="Enter Inventory File")
-        self.load_inventory_frame.pack(pady=20, side=TOP)
-        self.load_inventory_entry = Entry(self.load_inventory_frame, font=("Helvetica", 12)).grid(row=0, column=0, padx=10)
-        self.load_inventory_button = Button(self.load_inventory_frame, text="Load File", command=self.load_inventory_file, width=15).grid(row=0, column=1, padx=10)
-
-        self.hide_all_frames()
-
-    def start_application(self):
-        self.buildGUI()
-        self.root.mainloop()
-
-def main():
-	"""Execute when it's the main execution module."""
-	home_inventory_app_gui = InventoryAppGUI()
-	home_inventory_app_gui.start_application()
-
-# Call main() if this is the main execution module
-if __name__ == '__main__':
-	main()
+                        list_textbox.insert(END, f'{key.upper()}: \t {value.upper()}\n')
+        list_textbox.insert(END,'         ---------------------------------\n')
