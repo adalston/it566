@@ -67,11 +67,12 @@ class HomeInventory():
         if self.dictionary != None:
             for key, value in self.dictionary.items():
                 if key == 'items':
-                    print('items:')
+                    print(f'{key.upper()}' ':   ---------------------------------')
                     for item in value:
-                        print(f'\t {item["item"]:15} \t {item["count"]}')
+                        print(f'\t {item["item"]:25} \t {item["count"]}')
                 else:
-                    print(f'{key}: \t {value}')
+                    print(f'{key.upper()}: \t {value.upper()}')
+        print('         ---------------------------------')    
               
     def _get_file_path(self):
         """Get flle path from user."""
