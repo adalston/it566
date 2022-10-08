@@ -39,9 +39,10 @@ class InventoryAppGUI():
         messagebox.showinfo("popup", "New Inventory Created")
     
     def load_inventory(self):
+        """Load inventory data."""
         self.hide_all_frames()
         file = filedialog.askopenfilename(filetypes=self.file_types, defaultextension=self.file_types, initialdir=self.data_file_dir)
-        if file != None:
+        if len(file) > 0:
             self.home_inventory.load_inventory_file(file)
 
     def add_items(self):
@@ -51,6 +52,7 @@ class InventoryAppGUI():
         self.hide_all_frames()
 
     def save_inventory(self):
+        """Save inventory data."""
         self.hide_all_frames()
         file = filedialog.asksaveasfile(filetypes = self.file_types, defaultextension = self.file_types)
         if file != None:
@@ -79,7 +81,6 @@ class InventoryAppGUI():
         self.load_inventory_entry = Entry(self.load_inventory_frame, font=("Helvetica", 12))
         self.load_inventory_entry.grid(row=0, column=0, padx=10)
         self.load_inventory_button = Button(self.load_inventory_frame, text="Load File", command=self.load_inventory_file, width=15).grid(row=0, column=1, padx=10) 
-    
 
     def build_list_inventory_frame(self):
         """Build the frame for the list inventory."""
