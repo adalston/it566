@@ -2,6 +2,7 @@
 
 from asyncio.windows_events import NULL
 from contextlib import nullcontext
+from datetime import date
 from pathlib import Path
 import sys
 import string
@@ -13,7 +14,7 @@ class HomeInventory():
 
     def __init__(self):
         """Initialize Home Inventory object."""
-        self.dictionary = None
+        self._initialize_home_inventory_dictionary()
         self.inventory_file = NULL
 
     def new_inventory(self):
@@ -48,7 +49,10 @@ class HomeInventory():
     def add_item(self, item_name, item_count):
         """Add item to inventory."""
         assert self.dictionary != None
-        self.dictionary[item_name] = item_count
+        if (self.dictionary != None):
+            self.dictionary[item_name] = item_count
+        else:
+            print("No inventory exists. Create new inventory first.")
 
     def find_item(self, item_name):
         """Find item to inventory."""
@@ -60,9 +64,15 @@ class HomeInventory():
     def list_inventory(self):
         """List inventory to console."""
         print('----- Current Inventory ----')
-        for key, value in self.dictionary.items():
-            print(key, " : ", value)
-
+        if self.dictionary != None:
+            for key, value in self.dictionary.items():
+                if key == 'items':
+                    print('items:')
+                    for item in value:
+                        print(f'\t {item["item"]:15} \t {item["count"]}')
+                else:
+                    print(f'{key}: \t {value}')
+              
     def _get_file_path(self):
         """Get flle path from user."""
         f_path = input("Please enter path and filename: ")
@@ -76,14 +86,19 @@ class HomeInventory():
     def _list_inventory_files(self):
         """List all files in directory with _inventory.json file suffix."""
         print('JSON Files found in current directory')
+        root_path = os.path.relpath(Path.cwd())
         for (root, dirs, file) in os.walk(Path.cwd()):
             for f in file:
                 if '.json' in f:
-                    print(f)
+                    print(os.path.join(os.path.relpath(os.path.join(root, f), root_path)))
+                    #print(os.path.relpath(f, os.path.relpath(Path.cwd())))
        
     def _initialize_home_inventory_dictionary(self):
         print("Initializing new Home Inventory...")
         self.dictionary = {}
+        self.dictionary['type'] = 'Home Inventory'
+        self.dictionary['date'] = date.today().isoformat()
+        self.dictionary['items'] = []
         print("New Home Inventory Initialized")
 
 

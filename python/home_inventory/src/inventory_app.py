@@ -2,6 +2,8 @@
 
 from asyncio.windows_events import NULL
 from home_inventory import HomeInventory
+from subprocess import call
+import os
 
 class InventoryApp():
 	"""Implements household inventory control features."""
@@ -38,7 +40,8 @@ class InventoryApp():
 	def process_menu_choice(self):
 		"""Process menu choice and execute corrensponding methods."""
 		self.menu_choice = input('Please enter menu item number:')
-		print(f'You entered: {self.menu_choice}')
+		if (__debug__):
+			print(f'You entered: {self.menu_choice}')
 		match self.menu_choice:
 			case self.NEW_INVENTORY:
 				self.new_inventory()
@@ -56,8 +59,12 @@ class InventoryApp():
 				print('Goodbye!')
 				self.home_inventory._close_files()
 				self.keep_going = False
+				self.clear_screen()
 			case _:
 				print('Invalid Menu Choice!')
+
+	def clear_screen(self):
+		_ = call('clear' if os.name == 'posix' else 'clear')
 
 	def new_inventory(self):
 		"""Create new inventory."""		
@@ -69,7 +76,11 @@ class InventoryApp():
 
 	def list_inventory(self):
 		"""List inventory."""
+		self.clear_screen()
 		self.home_inventory.list_inventory()
+
+		input("Press any key to continue")
+		self.clear_screen()
 
 	def save_inventory(self):
 		"""Save inventory to file."""
@@ -94,6 +105,7 @@ class InventoryApp():
 
 	def start_application(self):
 		"""Start the applications."""
+		self.clear_screen()
 		while self.keep_going:
 			self.display_menu()
 			self.process_menu_choice()
