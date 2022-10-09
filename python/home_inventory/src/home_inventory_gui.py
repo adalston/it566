@@ -21,12 +21,10 @@ class HomeInventoryGUI():
         self._initialize_home_inventory_dictionary()
 
     def _initialize_home_inventory_dictionary(self):
-            print("Initializing new Home Inventory...")
             self.dictionary = {}
             self.dictionary['type'] = 'Home Inventory'
             self.dictionary['date'] = date.today().isoformat()
             self.dictionary['items'] = []
-            print("New Home Inventory Initialized")
 
     def new_inventory(self):
         """Initialize new dictionary to store inventory data."""
