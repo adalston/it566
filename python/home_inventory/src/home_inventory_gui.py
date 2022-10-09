@@ -66,8 +66,8 @@ class HomeInventoryGUI():
                 except ValueError:
                     item_count_int = 0
                 self.dictionary['items'].append({'item': item_name, 'count': item_count_int})
-            else:
-                messagebox.showinfo("popup", "No inventory data exists. Create new inventory first.")
+        else:
+            messagebox.showinfo("popup", "No inventory data exists. Create new inventory first.")
 
     def save_inventory_file(self):
         """Save inventory to file."""
