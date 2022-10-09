@@ -49,7 +49,7 @@ runtests() {
 }
 
 runmain() {
-	pipenv run python src/main.py
+	pipenv run python src/mainGUI.py
 }
 
 install() {
