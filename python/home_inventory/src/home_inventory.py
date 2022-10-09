@@ -48,9 +48,8 @@ class HomeInventory():
 
     def add_item(self, item_name, item_count):
         """Add item to inventory."""
-        assert self.dictionary != None
         if (self.dictionary != None):
-            self.dictionary[item_name] = item_count
+            self.dictionary['items'].append({'item': item_name, 'count': int(item_count)})
         else:
             print("No inventory exists. Create new inventory first.")
 
