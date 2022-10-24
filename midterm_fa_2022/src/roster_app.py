@@ -65,6 +65,7 @@ class RosterApp(object):
 	def new_roster(self):
 		"""Create new roster."""
 		self.clear_screen()
+		self.team_roster.new_roster()
 		if __debug__:
 			print('new_roster() method called...')
 
