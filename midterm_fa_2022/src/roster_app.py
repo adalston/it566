@@ -72,9 +72,9 @@ class RosterApp(object):
 	def load_roster(self):
 		"""Load roster from file."""
 		self.clear_screen()
+		self.team_roster.load_roster()
 		if __debug__:
 			print('load_roster() method called...')
-
 
 	def print_roster(self):
 		"""Print roster."""
