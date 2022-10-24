@@ -4,8 +4,8 @@ from asyncio.windows_events import NULL
 from datetime import date
 import json
 import os
+import string
 from pathlib import Path
-
 
 class Roster(object):
     """Implements Team Roster Operations"""
@@ -34,6 +34,19 @@ class Roster(object):
         file_path = self._get_file_path()
         with open(file_path, 'r', encoding='UTF-8') as self.roster_file:
             self.dictionary = json.load(self.roster_file)
+
+    def print_roster(self):
+        """Print Roster to console."""
+        print('----- Current Roster ----')
+        if self.dictionary != None:
+            for key, value in self.dictionary.items():
+                if key == 'members':
+                    print(f'{key.upper()}' ':   ---------------------------------')
+                    for item in value:
+                        print(f'\t {item["name"]:25} \t {item["age"]}')
+                else:
+                    print(f'{key.upper()}: \t {value.upper()}')
+        print('         ---------------------------------')    	
 
     def _get_file_path(self):
         """Get flle path from user."""

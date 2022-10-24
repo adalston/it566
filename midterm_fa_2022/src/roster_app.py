@@ -79,10 +79,10 @@ class RosterApp(object):
 	def print_roster(self):
 		"""Print roster."""
 		self.clear_screen()
+		self.team_roster.print_roster()
 		if __debug__:
 			print('print_roster() method called...')
-		
-
+	
 
 	def save_roster(self):
 		"""Save roster to file."""
