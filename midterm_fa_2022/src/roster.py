@@ -19,7 +19,7 @@ class Roster(object):
                 user_input = input("Save current roster? (y/n): ")
                 match user_input.lower():
                     case 'y':
-    #                   self.save_roster()
+                        self.save_roster()
                         self._initialize_roster_dictionary()
                     case 'n':
                         self._initialize_roster_dictionary()
@@ -41,12 +41,19 @@ class Roster(object):
         if self.dictionary != None:
             for key, value in self.dictionary.items():
                 if key == 'members':
-                    print(f'{key.upper()}' ':   ---------------------------------')
+                    print(f'{key.upper()}' ':   -----------------------------------------')
                     for item in value:
-                        print(f'\t {item["name"]:25} \t {item["age"]}')
+                        print(f'\t\t {item["name"]:25} \t {item["age"]}')
                 else:
-                    print(f'{key.upper()}: \t {value.upper()}')
-        print('         ---------------------------------')    	
+                    print(f'{key.upper()}: \t\t {value.upper()}')
+        print('           -----------------------------------------')    	
+
+    def save_roster(self):
+        """Save roster to file."""
+        if self.dictionary != None:
+            file_path = self._get_file_path()
+            with open(file_path, 'w', encoding='UTF-8') as self.roster_file:
+                self.roster_file.write(json.dumps(self.dictionary))
 
     def _get_file_path(self):
         """Get flle path from user."""
