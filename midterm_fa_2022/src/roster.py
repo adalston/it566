@@ -55,6 +55,13 @@ class Roster(object):
             with open(file_path, 'w', encoding='UTF-8') as self.roster_file:
                 self.roster_file.write(json.dumps(self.dictionary))
 
+    def add_item(self, member_name, member_age):
+        """Add member to roster."""
+        if (self.dictionary != None):
+            self.dictionary['members'].append({'name': member_name, 'age': int(member_age)})
+        else:
+            print("No inventory exists. Create new inventory first.")
+
     def _get_file_path(self):
         """Get flle path from user."""
         f_path = input("Please enter path and filename: ")

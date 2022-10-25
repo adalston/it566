@@ -83,7 +83,6 @@ class RosterApp(object):
 		if __debug__:
 			print('print_roster() method called...')
 	
-
 	def save_roster(self):
 		"""Save roster to file."""
 		self.clear_screen()
@@ -91,16 +90,17 @@ class RosterApp(object):
 		if __debug__:
 			print('save_roster() method called...')
 		
-
-
 	def add_members(self):
 		"""Add items to roster."""
 		self.clear_screen()
+		keep_going = 'y'
+		while keep_going[0] == 'y':
+			member_name = input('Member Name: ')
+			member_age = input('Member Age: ')
+			self.team_roster.add_item(member_name, member_age)
+			keep_going = input('Add another? (y/n): ')
 		if __debug__:
 			print('print_roster() method called...')
-
-
-
 
 	def start_application(self):
 		"""Start the applications."""
