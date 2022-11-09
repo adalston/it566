@@ -9,13 +9,14 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
 from tkinter import filedialog
+from sql_dao import SqlDao
 
 from home_inventory_gui import HomeInventoryGUI
 
 class InventoryAppGUI():
     """Implements household inventory control features GUI."""
 
-    def __init__(self):
+    def __init__(self, database_host='localhost', database='home_inventory', database_user='home_inventory_user', port=3306, password=None):
         """Initialize object."""
         # variable
         self.root = Tk()
@@ -36,6 +37,10 @@ class InventoryAppGUI():
         self.font_size = 10
         self.font_type = "Helvetica"
 
+        """ Create Database Access Object """
+        self.db_password = password
+        self.db_dao = SqlDao(database_host, port, database, database_user, self.db_password)
+        
     def hide_all_frames(self):
         self.list_frame.pack_forget()
         self.load_inventory_frame.pack_forget()
