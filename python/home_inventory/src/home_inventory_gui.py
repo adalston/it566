@@ -76,7 +76,7 @@ class HomeInventoryGUI():
         if file_path != None:
             if self.dictionary != None:
                 with open(file_path.name, 'w', encoding='UTF-8') as self.inventory_file:
-                    self.inventory_file.write(json.dumps(self.dictionary))
+                    self.inventory_file.write(json.dumps(self.dictionary, indent=4))
                 messagebox.showinfo("popup", "Successfully saved: [" + file_path.name + "]")
 
     def list_inventory(self, list_textbox):

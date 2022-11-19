@@ -55,7 +55,7 @@ runmain() {
     elif [[ "$OSTYPE" == "darwin"*  ]]; then   # MacOS
         pipenv run python3 src/main.py
     elif [[ "$OSTYPE" == "msys"* ]]; then	   # Windows via GitBash Terminal
-        pipenv run python src/main.py
+        pipenv run python src/mainGUI.py
     else
         echo "Unknown execution environment. Edit build.sh and add your os type to the runmain() method"
     fi

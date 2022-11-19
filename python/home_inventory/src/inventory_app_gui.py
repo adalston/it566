@@ -145,7 +145,7 @@ class InventoryAppGUI():
         Button(my_labelframe, text="List Inventory", command=self.list_inventory, width=15).grid(row=0, column=2, padx=10)
         Button(my_labelframe, text="Add Items", command=self.add_item, width=15).grid(row=0, column=3, padx=10)
         Button(my_labelframe, text="Find Item", command=self.find_item, width=15).grid(row=0, column=4, padx=10)
-        Button(my_labelframe, text="Save Inventory", command=self.save_inventory, width=15).grid(row=0, column=5, padx=10)
+        Button(my_labelframe, text="Export to JSON", command=self.save_inventory, width=15).grid(row=0, column=5, padx=10)
         Button(my_labelframe, text="Exit", command=self.close, width=15).grid(row=0, column=6, padx=10)
 
     def buildGUI(self):
