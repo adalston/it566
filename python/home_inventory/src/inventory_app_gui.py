@@ -4,6 +4,7 @@ from asyncio.windows_events import NULL
 from contextlib import nullcontext
 import json
 import os
+import tkinter as tk
 from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
@@ -21,7 +22,7 @@ class InventoryAppGUI():
         # variable
         self.root = Tk()
         self.root.title("Home Inventory")
-        self.root.geometry("1000x450")
+        self.root.geometry("1000x650")
         self.list_textbox = None
         self.find_item_textbox = None
         self.home_inventory = HomeInventoryGUI()
@@ -132,12 +133,18 @@ class InventoryAppGUI():
 
     def build_list_inventory_frame(self):
         """Build the frame for the list inventory."""
-        self.list_frame = Frame(self.root, width=450, height=450)
-        self.list_textbox = Text(self.list_frame, height=20, width=80, wrap=WORD)
-        self.list_textbox.pack()
+        self.list_frame = Frame(self.root, width=650, height=650)
+        self.list_textbox = Text(self.list_frame, height=40, width=80, wrap=WORD)
+        self.list_textbox.pack(fill=tk.BOTH)
     
     def build_main_menu_buttons(self):
         """Build the buttons across the top."""
+        status_labelframe = LabelFrame(self.root, text="Database Status")
+        status_labelframe.pack(pady=5, side=BOTTOM, fill=tk.X)
+        label_item_text=StringVar()
+        label_item_text.set(self.db_dao.get_status())
+        label_item=Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg="green", fg="white")
+        label_item.grid(row=1, column=0, columnspan=3)
         my_labelframe = LabelFrame(self.root, text="Inventory Menu")
         my_labelframe.pack(pady=5, side=TOP)
         Button(my_labelframe, text="New Inventory", command=self.new_inventory, width=15).grid(row=0, column=0, padx=10)

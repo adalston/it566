@@ -19,6 +19,8 @@ class SqlDao:
 		self.SELECT_ALL = 'SELECT id, item, count FROM items'
 		self.INSERT = 'INSERT INTO items (item, count) VALUES(%s, %s)'
 
+	def get_status(self):
+		return ("[CONNNECTED] " + "Host: {" + self._db_host + "} Port: {" + str(self._db_port) + "} User Connected: {" + self._db_user_name + "}")
 
 	def insert_item(self, item, count):
 		try:
