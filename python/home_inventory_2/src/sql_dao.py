@@ -35,7 +35,14 @@ class SqlDao:
 		self._db_connection = self._initialize_database_connection(self.DB_CONFIG)
 
 	def get_status(self):
-		return ("[CONNNECTED] " + "Database: {" + self.DB_CONFIG['database'] +  "} Host: {" + self.DB_CONFIG['host'] + "} Port: {" + str(self.DB_CONFIG['port']) + "} User Connected: {" + self.DB_CONFIG['user']+ "}")
+		if self._db_connection != None:
+			status = self._db_connection.is_connected()
+		else:
+			status = False
+			
+		connected = "CONNECTED" if status else "NOT CONNECTED"
+		status_text = ("[" + connected + "] " + "Database: {" + self.DB_CONFIG['database'] +  "} Host: {" + self.DB_CONFIG['host'] + "} Port: {" + str(self.DB_CONFIG['port']) + "} User Connected: {" + self.DB_CONFIG['user']+ "}")
+		return status, status_text
 
 	def get_all_elements(self):
 		"""Returns a list of all rows in the inventories table"""

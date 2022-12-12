@@ -180,17 +180,19 @@ class InventoryAppGUI():
     
     def build_main_menu_buttons(self):
         """Build the buttons across the top."""
+        status, status_text = self.db_dao.get_status()
+        background = "green" if status else "red"     
         status_labelframe = LabelFrame(self.root, text="Database Status")
         status_labelframe.pack(pady=5, side=BOTTOM, fill=tk.X)
         label_item_text=StringVar()
         label_item_text.set("                                            ")
-        Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg="green", fg="white").grid(row=1, column=0)
+        Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg=background, fg="white").grid(row=1, column=0)
         label_item_text=StringVar()
         label_item_text.set("                                                           ")
-        Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg="green", fg="white").grid(row=1, column=2)
+        Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg=background, fg="white").grid(row=1, column=2)
         label_item_text=StringVar()
-        label_item_text.set(self.db_dao.get_status())
-        label_item=Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg="green", fg="white")
+        label_item_text.set(status_text)
+        label_item=Label(status_labelframe, textvariable=label_item_text, height=1, font=(self.font_type, self.font_size), bg=background, fg="white")
         label_item.grid(row=1, column=1)
         my_labelframe = LabelFrame(self.root, text="Inventory Menu")
         my_labelframe.pack(pady=5, side=TOP)
